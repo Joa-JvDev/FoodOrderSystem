@@ -5,19 +5,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Entity
-@Table(name = "Items")
+@Table(name = "category")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Item {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer quantity;
-    private BigDecimal UnitPrice;
 
+    private String name;
+    private String description;
 }

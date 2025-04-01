@@ -5,23 +5,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
 @Entity
-@Table(name = "shoppingCart")
+@Table(name = "product")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ShoppingCart {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id")
-    private List<Items> items = new ArrayList<>();
+    private String name;
+    private String description;
+    private BigDecimal price;
+    private Integer stock;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
 }

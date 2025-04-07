@@ -1,5 +1,5 @@
 package jva.dev.foodordersystem.domain.enums;
 
-public enum Status {
+public enum StatusOrder {
     PENDING, CANCELLED, COMPLETED
 }

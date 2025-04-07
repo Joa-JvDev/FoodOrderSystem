@@ -21,7 +21,6 @@ public class ShoppingCart {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
-    private List<Items> items = new ArrayList<>();
-
-
+    private List<Product> products = new ArrayList<>();
+    
 }

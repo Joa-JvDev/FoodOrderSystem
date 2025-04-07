@@ -1,6 +1,7 @@
 package jva.dev.foodordersystem.domain.entity;
 
 import jakarta.persistence.*;
+import jva.dev.foodordersystem.domain.enums.StatusProduct;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,8 @@ public class Product {
     private String name;
     private String description;
     private BigDecimal price;
-    private Integer stock;
+    private StatusProduct status;
+    private Integer quantity;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

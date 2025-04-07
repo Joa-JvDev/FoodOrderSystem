@@ -1,33 +1,32 @@
 package jva.dev.foodordersystem.domain.entity;
 
 import jakarta.persistence.*;
-import jva.dev.foodordersystem.domain.enums.Status;
+import jva.dev.foodordersystem.domain.enums.StatusOrder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Order {
+public class Orders {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDate orderDate;
-    private Status status;
-    private BigDecimal totalPrice;
+
+    @Enumerated(EnumType.STRING)
+    private StatusOrder status;
 
     @OneToMany
-    @JoinColumn(name = "pedido_id")
+    @JoinColumn(name = "order_id")
     private List<OrderDetails> details = new ArrayList<>();
 
 }

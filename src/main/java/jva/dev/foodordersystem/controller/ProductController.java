@@ -11,7 +11,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("product")
+@RequestMapping("/product")
 public class ProductController {
 
     private final ProductService productService;
@@ -29,6 +29,7 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable Long id) {
         return null;
     }
+
 
 
 

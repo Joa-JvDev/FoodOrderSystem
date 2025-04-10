@@ -16,11 +16,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -41,12 +37,13 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
                     // Config de las endpoints PUBLICAS
-                    http.requestMatchers(HttpMethod.POST,"/auth/**").permitAll();
-                    http.requestMatchers(HttpMethod.POST,"user/register").permitAll();
+                    http.requestMatchers(HttpMethod.POST,"/auth/**","/cart/add/product/{id}/{quantity}").permitAll();
                     // Config de las endpoints PRIVADAS
-                    http.requestMatchers(HttpMethod.GET, "/product/all").hasRole("USER");
+                    http.requestMatchers(HttpMethod.GET, "/product/**", "/cart/**").hasRole("USER");
+                    http.requestMatchers(HttpMethod.POST, "/cart/add/product/{id}").hasRole("USER");
+                    http.requestMatchers(HttpMethod.DELETE, "/cart/clear").hasRole("USER");
                     // Config del resto de ENDPOINTS
-                    http.anyRequest().denyAll();
+                    http.anyRequest().authenticated();
                 })
                 .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
                 .build();

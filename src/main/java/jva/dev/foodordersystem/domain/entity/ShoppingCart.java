@@ -21,6 +21,11 @@ public class ShoppingCart {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
-    private List<Product> products = new ArrayList<>();
+    private List<Items> items = new ArrayList<>();
+
+
+    public void cleanCart(){
+        items.clear();
+    }
     
 }

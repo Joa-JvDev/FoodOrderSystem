@@ -1,5 +1,6 @@
 package jva.dev.foodordersystem.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,12 +8,12 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "orderDetails")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class OrderDetails {
+@Entity
+@Table(name = "items")
+public class Items {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +22,8 @@ public class OrderDetails {
     private Integer quantity;
     private BigDecimal unitPrice;
 
+
     @ManyToOne
-    @JoinColumn(name = "items_id")
-    private Items items;
+    @JoinColumn(name = "product_id")
+    private Product product;
 }

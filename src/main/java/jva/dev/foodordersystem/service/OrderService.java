@@ -1,8 +1,11 @@
 package jva.dev.foodordersystem.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.criteria.Order;
 import jva.dev.foodordersystem.domain.entity.*;
 import jva.dev.foodordersystem.domain.enums.StatusOrder;
+import jva.dev.foodordersystem.dto.response.OrderResponseDTO;
+import jva.dev.foodordersystem.mapper.OrderMapper;
 import jva.dev.foodordersystem.repository.OrderDetailsRepository;
 import jva.dev.foodordersystem.repository.OrderRepository;
 import jva.dev.foodordersystem.repository.UserRepository;
@@ -12,9 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.LocalDate;import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,8 +25,9 @@ public class OrderService {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private final OrderDetailsRepository orderDetailsRepository;
+    private final OrderMapper orderMapper;
 
-    public Orders create() {
+    public OrderResponseDTO create() {
         UserEntity user = findAutenticatedUser();
         Orders orders = new Orders();
         List<OrderDetails> detailsList = new ArrayList<>();
@@ -35,15 +37,12 @@ public class OrderService {
             OrderDetails detail = new OrderDetails();
             detail.setQuantity(items.getQuantity());
 
-            // Multiplicar el precio unitario por la cantidad
             BigDecimal itemTotalPrice = items.getUnitPrice().multiply(new BigDecimal(items.getQuantity()));
-
             detail.setUnitPrice(itemTotalPrice);
+            detail.setItems(items);
 
             orderDetailsRepository.save(detail);
             detailsList.add(detail);
-
-            // Acumular el precio total de la orden
             totalPrice = totalPrice.add(itemTotalPrice);
         }
 
@@ -53,7 +52,9 @@ public class OrderService {
         orders.setStatus(StatusOrder.PENDING);
         user.getCart().getItems().clear();
 
-        return orderRepository.save(orders);
+        Orders order = orderRepository.save(orders);
+        OrderResponseDTO orderResponseDTO = orderMapper.toResponseDTO(order);
+        return orderResponseDTO;
     }
 
     public void cancel(Long id){

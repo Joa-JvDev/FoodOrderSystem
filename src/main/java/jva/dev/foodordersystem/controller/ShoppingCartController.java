@@ -1,6 +1,7 @@
 package jva.dev.foodordersystem.controller;
 
 import jva.dev.foodordersystem.domain.entity.ShoppingCart;
+import jva.dev.foodordersystem.dto.response.ShoppingCartResponseDTO;
 import jva.dev.foodordersystem.service.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,18 +16,18 @@ public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 
     @PostMapping("/add/product/{id}/{quantity}")
-    public ResponseEntity<ShoppingCart> addProduct(@PathVariable Long id, @PathVariable Integer quantity) {
+    public ResponseEntity<ShoppingCartResponseDTO> addProduct(@PathVariable Long id, @PathVariable Integer quantity) {
         return new ResponseEntity<>(shoppingCartService.addProduct(id,quantity), HttpStatus.OK);
     }
 
     @DeleteMapping("/clear")
-    public ShoppingCart clear() {
-        return shoppingCartService.clear();
+    public ResponseEntity<ShoppingCartResponseDTO> clear() {
+        return new ResponseEntity<>(shoppingCartService.clear(), HttpStatus.OK);
     }
 
     @GetMapping("/view")
-    public ShoppingCart view() {
-        return shoppingCartService.view();
+    public ResponseEntity<ShoppingCartResponseDTO> view() {
+        return new ResponseEntity<>(shoppingCartService.view(), HttpStatus.OK);
     }
 
 }

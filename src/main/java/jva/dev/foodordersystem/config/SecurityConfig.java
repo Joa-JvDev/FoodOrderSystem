@@ -37,9 +37,10 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
                     // Config de las endpoints PUBLICAS
+                    http.requestMatchers("/api/v1/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/webjars/**").permitAll();
                     http.requestMatchers(HttpMethod.POST,"/auth/**","/cart/add/product/{id}/{quantity}").permitAll();
                     // Config de las endpoints PRIVADAS
-                    http.requestMatchers(HttpMethod.GET, "/product/**", "/cart/**").hasRole("USER");
+                    http.requestMatchers("/product/**", "/cart/**").hasRole("USER");
                     http.requestMatchers(HttpMethod.POST, "/cart/add/product/{id}").hasRole("USER");
                     http.requestMatchers(HttpMethod.DELETE, "/cart/clear").hasRole("USER");
                     // Config del resto de ENDPOINTS

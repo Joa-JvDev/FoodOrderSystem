@@ -7,5 +7,5 @@ import java.util.List;
 
 @Data
 public class ShoppingCartResponseDTO {
-    private List<Items> items;
+    private List<ItemsResponseDTO> items;
 }

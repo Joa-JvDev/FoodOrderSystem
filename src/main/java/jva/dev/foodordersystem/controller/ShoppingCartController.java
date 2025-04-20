@@ -15,8 +15,11 @@ public class ShoppingCartController {
 
     private final ShoppingCartService shoppingCartService;
 
-    @PostMapping("/add/product/{id}/{quantity}")
-    public ResponseEntity<ShoppingCartResponseDTO> addProduct(@PathVariable Long id, @PathVariable Integer quantity) {
+    @PostMapping("/add/product")
+    public ResponseEntity<ShoppingCartResponseDTO> addProduct(
+            @RequestParam Long id,
+            @RequestParam Integer quantity)
+    {
         return new ResponseEntity<>(shoppingCartService.addProduct(id,quantity), HttpStatus.OK);
     }
 
@@ -28,6 +31,13 @@ public class ShoppingCartController {
     @GetMapping("/view")
     public ResponseEntity<ShoppingCartResponseDTO> view() {
         return new ResponseEntity<>(shoppingCartService.view(), HttpStatus.OK);
+    }
+
+    @PutMapping("/item/update")
+    public ResponseEntity<ShoppingCartResponseDTO> itemQuantityModify(
+            @RequestParam Long id,
+            @RequestParam Integer quantity) {
+        return new ResponseEntity<>(shoppingCartService.itemQuantityModify(id,quantity), HttpStatus.OK);
     }
 
 }

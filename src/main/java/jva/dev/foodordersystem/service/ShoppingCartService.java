@@ -1,7 +1,6 @@
 package jva.dev.foodordersystem.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import jva.dev.foodordersystem.domain.entity.Items;
 import jva.dev.foodordersystem.domain.entity.Product;
 import jva.dev.foodordersystem.domain.entity.ShoppingCart;
@@ -54,11 +53,26 @@ public class ShoppingCartService {
         return shoppingCartMapper.toResponseDTO(shoppingCart);
     }
 
+    public ShoppingCartResponseDTO itemQuantityModify(Long id, Integer quantity) {
+        UserEntity user = findAutenticatedUser();
+        ShoppingCart shoppingCart = user.getCart();
+
+        for (Items item : shoppingCart.getItems()) {
+            if (item.getId().equals(id)) {
+                item.setQuantity(quantity);
+            }
+        }
+        shoppingCartRepository.save(shoppingCart);
+        return shoppingCartMapper.toResponseDTO(shoppingCart);
+    }
+
     private UserEntity findAutenticatedUser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         UserEntity user = userRepository.findUserEntityByEmail(auth.getName()).orElseThrow(EntityNotFoundException::new);
         return user;
     }
+
+
 
 
 

@@ -51,10 +51,9 @@ public class OrderService {
         orders.setOrderDate(LocalDate.now());
         orders.setStatus(StatusOrder.PENDING);
         user.getCart().getItems().clear();
-
-        Orders order = orderRepository.save(orders);
-        OrderResponseDTO orderResponseDTO = orderMapper.toResponseDTO(order);
-        return orderResponseDTO;
+        user.getOrders().add(orders);
+        userRepository.save(user);
+        return orderMapper.toResponseDTO(orders);
     }
 
     public void cancel(Long id){
@@ -63,8 +62,7 @@ public class OrderService {
 
     private UserEntity findAutenticatedUser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity user = userRepository.findUserEntityByEmail(auth.getName()).orElseThrow(EntityNotFoundException::new);
-        return user;
+        return userRepository.findUserEntityByEmail(auth.getName()).orElseThrow(EntityNotFoundException::new);
     }
 
 }

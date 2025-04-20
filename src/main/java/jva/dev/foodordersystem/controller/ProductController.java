@@ -30,11 +30,4 @@ public class ProductController {
     }
 
 
-    public ResponseEntity<Product> updateProduct(@RequestBody Product product, @PathVariable Long id) {
-        return null;
-    }
-
-
-
-
 }

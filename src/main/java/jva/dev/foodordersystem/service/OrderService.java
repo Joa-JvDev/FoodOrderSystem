@@ -56,10 +56,6 @@ public class OrderService {
         return orderMapper.toResponseDTO(orders);
     }
 
-    public void cancel(Long id){
-
-    }
-
     private UserEntity findAutenticatedUser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return userRepository.findUserEntityByEmail(auth.getName()).orElseThrow(EntityNotFoundException::new);

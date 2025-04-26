@@ -24,7 +24,6 @@ public class OrderMapper {
         return orderResponseDTO;
     }
 
-
     public List<OrderDetailsResponseDTO> toResponseDTOList(List<OrderDetails> orderDetailsList) {
         return orderDetailsList.stream()
                 .map(this::toOrderDetailsResponseDTO)

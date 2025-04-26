@@ -13,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -34,21 +33,29 @@ public class JwtTokenValidator extends OncePerRequestFilter {
                                     @Nonnull FilterChain filterChain) throws ServletException, IOException {
         String jwtToken = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (jwtToken != null) {
-            jwtToken = jwtToken.substring(7);
-
-          DecodedJWT decodedJWT = jwtUtils.verifyJwtToken(jwtToken);
-
-          String username = jwtUtils.extractUsername(decodedJWT);
-          String stringAuthorities = jwtUtils.getSpecificClaim(decodedJWT, "authorities").asString();
-
-            Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities);
-
-            SecurityContext context = SecurityContextHolder.getContext();
-            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
-            context.setAuthentication(authentication);
-            SecurityContextHolder.setContext(context);
+        if (jwtToken == null || !jwtToken.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
         }
+
+        try {
+            jwtToken = jwtToken.substring(7); // Quitar "Bearer "
+            DecodedJWT decodedJWT = jwtUtils.verifyJwtToken(jwtToken);
+
+            String username = jwtUtils.extractUsername(decodedJWT);
+            String stringAuthorities = jwtUtils.getSpecificClaim(decodedJWT, "authorities").asString();
+
+            Collection<? extends GrantedAuthority> authorities =
+                    AuthorityUtils.commaSeparatedStringToAuthorityList(stringAuthorities);
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        } catch (Exception e) {
+            // En caso de token inválido, no autenticamos y seguimos la cadena
+            SecurityContextHolder.clearContext(); // Limpia por si acaso
+        }
+
         filterChain.doFilter(request, response);
     }
 }

@@ -44,7 +44,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(http -> {
                     http.requestMatchers("/api/v1/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/webjars/**").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/auth/**", "/cart/add/product/{id}/{quantity}").permitAll();
-                    http.requestMatchers("/product/**", "/cart/**").hasRole("USER");
+                    http.requestMatchers(HttpMethod.GET ,"/api/v1/product/all").permitAll();
+                    http.requestMatchers("/api/v1/product/", "/cart/**").hasRole("USER");
                     http.requestMatchers(HttpMethod.POST, "/cart/add/product/{id}").hasRole("USER");
                     http.requestMatchers(HttpMethod.DELETE, "/cart/clear").hasRole("USER");
                     http.anyRequest().authenticated();
@@ -77,7 +78,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of("http://localhost:4200")); // Cambia esto si tienes otro frontend
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true); // Si usas cookies o Authorization header
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

@@ -1,6 +1,5 @@
 package jva.dev.foodordersystem.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jva.dev.foodordersystem.domain.enums.StatusProduct;
 import lombok.AllArgsConstructor;

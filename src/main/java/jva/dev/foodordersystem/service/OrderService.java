@@ -52,6 +52,7 @@ public class OrderService {
         orders.setStatus(StatusOrder.PENDING);
         user.getCart().getItems().clear();
         user.getOrders().add(orders);
+        orderRepository.save(orders);
         userRepository.save(user);
         return orderMapper.toResponseDTO(orders);
     }

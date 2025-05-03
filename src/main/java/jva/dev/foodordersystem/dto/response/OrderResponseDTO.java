@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class OrderResponseDTO {
-
+    private Long id;
     private LocalDate orderDate;
     private StatusOrder status;
     private BigDecimal totalPrice;

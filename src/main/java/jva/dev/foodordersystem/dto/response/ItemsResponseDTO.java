@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class ItemsResponseDTO {
 
+    private Long id;
     private Integer quantity;
     private BigDecimal unitPrice;
     private ProductResponseDTO product;

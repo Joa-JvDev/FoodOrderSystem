@@ -45,10 +45,10 @@ public class SecurityConfig {
                     http.requestMatchers("/api/v1/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/webjars/**").permitAll();
                     http.requestMatchers(HttpMethod.POST, "/auth/**", "/cart/add/product/{id}/{quantity}").permitAll();
                     http.requestMatchers(HttpMethod.GET ,"/api/v1/product/all").permitAll();
-                    http.requestMatchers("/api/v1/product/", "/cart/**").hasRole("USER");
-                    http.requestMatchers(HttpMethod.POST, "/cart/add/product/{id}").hasRole("USER");
-                    http.requestMatchers(HttpMethod.DELETE, "/cart/clear").hasRole("USER");
-                    http.anyRequest().authenticated();
+                    http.requestMatchers("/api/v1/product/", "/cart/**").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/cart/add/product/{id}").permitAll();
+                    http.requestMatchers(HttpMethod.DELETE, "/cart/clear").permitAll();
+                    http.anyRequest().permitAll();
                 })
                 .addFilterBefore(new JwtTokenValidator(jwtUtils), BasicAuthenticationFilter.class)
                 .build();

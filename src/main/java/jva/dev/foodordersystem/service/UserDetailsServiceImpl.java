@@ -6,9 +6,8 @@ import jva.dev.foodordersystem.domain.enums.Role;
 import jva.dev.foodordersystem.dto.request.AuthLoginRequest;
 import jva.dev.foodordersystem.dto.request.AuthRegisterRequest;
 import jva.dev.foodordersystem.dto.response.AuthResponse;
-import jva.dev.foodordersystem.repository.UserRepository;
+import jva.dev.foodordersystem.service.repository.UserRepository;
 import jva.dev.foodordersystem.utils.JwtUtils;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +23,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service

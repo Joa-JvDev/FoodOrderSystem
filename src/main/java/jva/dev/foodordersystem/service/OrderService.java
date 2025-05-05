@@ -1,14 +1,13 @@
 package jva.dev.foodordersystem.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.criteria.Order;
 import jva.dev.foodordersystem.domain.entity.*;
 import jva.dev.foodordersystem.domain.enums.StatusOrder;
 import jva.dev.foodordersystem.dto.response.OrderResponseDTO;
 import jva.dev.foodordersystem.mapper.OrderMapper;
-import jva.dev.foodordersystem.repository.OrderDetailsRepository;
-import jva.dev.foodordersystem.repository.OrderRepository;
-import jva.dev.foodordersystem.repository.UserRepository;
+import jva.dev.foodordersystem.service.repository.OrderDetailsRepository;
+import jva.dev.foodordersystem.service.repository.OrderRepository;
+import jva.dev.foodordersystem.service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

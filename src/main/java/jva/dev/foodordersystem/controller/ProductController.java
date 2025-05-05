@@ -1,9 +1,7 @@
 package jva.dev.foodordersystem.controller;
 
-import jva.dev.foodordersystem.domain.entity.Product;
 import jva.dev.foodordersystem.dto.request.ProductRequestDTO;
 import jva.dev.foodordersystem.dto.response.ProductResponseDTO;
-import jva.dev.foodordersystem.repository.ProductRepository;
 import jva.dev.foodordersystem.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +16,7 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+
 
     @GetMapping("/all")
     public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {

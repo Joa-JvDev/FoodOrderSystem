@@ -1,4 +1,4 @@
-package jva.dev.foodordersystem.repository;
+package jva.dev.foodordersystem.service.repository;
 
 import jva.dev.foodordersystem.domain.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;

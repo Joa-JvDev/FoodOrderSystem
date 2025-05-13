@@ -2,6 +2,7 @@ package jva.dev.foodordersystem.service;
 
 import jva.dev.foodordersystem.config.CacheConfig;
 import jva.dev.foodordersystem.domain.entity.Product;
+import jva.dev.foodordersystem.domain.enums.StatusProduct;
 import jva.dev.foodordersystem.dto.request.ProductRequestDTO;
 import jva.dev.foodordersystem.dto.response.ProductResponseDTO;
 import jva.dev.foodordersystem.mapper.ProductMapper;
@@ -19,18 +20,21 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
-    @Cacheable(value = CacheConfig.CACHE_USERS_INFO, unless = "#result == null")
     public List<ProductResponseDTO> getAllProducts() {
         List<Product> products = productRepository.findAll();
         return productMapper.toResponseDTOList(products);
     }
 
+
     public ProductResponseDTO createProduct(ProductRequestDTO product) {
         Product productEntity = productMapper.toEntity(product);
+        productEntity.setStatus(StatusProduct.AVAILABLE);
+        if (productEntity.getStock() <= 0){ 
+            productEntity.setStatus(StatusProduct.SOLD_OUT);
+        }
         productRepository.save(productEntity);
         return productMapper.toResponseDTO(productEntity);
     }
-
     public Product updateProduct(Product product, Long id) {
         return null;
     }

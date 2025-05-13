@@ -24,9 +24,9 @@ public class Product {
     private BigDecimal price;
     private StatusProduct status;
     private Integer stock;
-
+/*
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-
+*/
 }

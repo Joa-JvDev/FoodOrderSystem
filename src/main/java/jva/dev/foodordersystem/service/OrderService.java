@@ -4,6 +4,8 @@ import jakarta.persistence.EntityNotFoundException;
 import jva.dev.foodordersystem.domain.entity.*;
 import jva.dev.foodordersystem.domain.enums.StatusOrder;
 import jva.dev.foodordersystem.dto.response.OrderResponseDTO;
+import jva.dev.foodordersystem.exception.APIError;
+import jva.dev.foodordersystem.exception.ApplicationExeption;
 import jva.dev.foodordersystem.mapper.OrderMapper;
 import jva.dev.foodordersystem.service.repository.OrderDetailsRepository;
 import jva.dev.foodordersystem.service.repository.OrderRepository;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -31,6 +34,10 @@ public class OrderService {
         Orders orders = new Orders();
         List<OrderDetails> detailsList = new ArrayList<>();
         BigDecimal totalPrice = BigDecimal.ZERO;
+
+        if (user.getCart().getItems().isEmpty()) {
+            throw new ApplicationExeption(APIError.CART_IS_EMPTY);
+        }
 
         for (Items items : user.getCart().getItems()) {
             OrderDetails detail = new OrderDetails();
@@ -56,9 +63,15 @@ public class OrderService {
         return orderMapper.toResponseDTO(orders);
     }
 
+    public List<Orders> getOrdersByUserId() {
+        UserEntity user = findAutenticatedUser();
+        return user.getOrders();
+    }
+
     private UserEntity findAutenticatedUser(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return userRepository.findUserEntityByEmail(auth.getName()).orElseThrow(EntityNotFoundException::new);
     }
+
 
 }

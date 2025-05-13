@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
@@ -18,6 +19,7 @@ public class ApplicationExeption extends RuntimeException {
     public ApplicationExeption(APIError error) {
         this.status = error.getStatus();
         this.description = error.getDescription();
+        this.reasons = List.of();
     }
 
     public ApplicationExeption(HttpStatus status, String description, List<String> reasons) {

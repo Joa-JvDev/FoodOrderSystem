@@ -10,6 +10,6 @@ public class ProductRequestDTO {
     private String name;
     private String description;
     private BigDecimal price;
-    private Category category;
+    //private Category category;
     private Integer stock;
 }
